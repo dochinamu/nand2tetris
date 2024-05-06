@@ -1,0 +1,66 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/DMux8Way.hdl
+/**
+ * 8-way demultiplexor:
+ * [a, b, c, d, e, f, g, h] = [in, 0,  0,  0,  0,  0,  0,  0] if sel = 000
+ *                            [0, in,  0,  0,  0,  0,  0,  0] if sel = 001
+ *                            [0,  0, in,  0,  0,  0,  0,  0] if sel = 010
+ *                            [0,  0,  0, in,  0,  0,  0,  0] if sel = 011
+ *                            [0,  0,  0,  0, in,  0,  0,  0] if sel = 100
+ *                            [0,  0,  0,  0,  0, in,  0,  0] if sel = 101
+ *                            [0,  0,  0,  0,  0,  0, in,  0] if sel = 110
+ *                            [0,  0,  0,  0,  0,  0,  0, in] if sel = 111
+ */
+CHIP DMux8Way {
+    IN in, sel[3];
+    OUT a, b, c, d, e, f, g, h;
+
+    PARTS:
+    //// Replace this comment with your code.
+    Not(in=sel[0], out=nsel0);
+    Not(in=sel[1], out=nsel1);
+    Not(in=sel[2], out=nsel2);
+
+    //// a
+    And(a=nsel0, b=nsel1, out=asel1);
+    And(a=asel1, b=nsel2, out=asel);
+    And(a=asel, b=in, out=a);
+
+
+    //// b
+    And(a=sel[0], b=nsel1, out=bsel1);
+    And(a=bsel1, b=nsel2, out=bsel);
+    And(a=bsel, b=in, out=b);
+
+    //// c
+    And(a=nsel0, b=sel[1], out=csel1);
+    And(a=csel1, b=nsel2, out=csel);
+    And(a=csel, b=in, out=c);
+
+    //// d
+    And(a=sel[0], b=sel[1], out=dsel1);
+    And(a=dsel1, b=nsel2, out=dsel);
+    And(a=dsel, b=in, out=d);
+
+    //// e
+    And(a=nsel0, b=nsel1, out=esel1);
+    And(a=esel1, b=sel[2], out=esel);
+    And(a=esel, b=in, out=e);
+
+    //// f
+    And(a=sel[0], b=nsel1, out=fsel1);
+    And(a=fsel1, b=sel[2], out=fsel);
+    And(a=fsel, b=in, out=f);
+
+    //// g
+    And(a=nsel0, b=sel[1], out=gsel1);
+    And(a=gsel1, b=sel[2], out=gsel);
+    And(a=gsel, b=in, out=g);
+
+    //// h
+    And(a=sel[0], b=sel[1], out=hsel1);
+    And(a=hsel1, b=sel[2], out=hsel);
+    And(a=hsel, b=in, out=h);
+}
